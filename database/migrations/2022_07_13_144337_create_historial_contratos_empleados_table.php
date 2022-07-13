@@ -13,18 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('historial_cobros_garita', function (Blueprint $table) {
+        Schema::create('historial_contratos_empleados', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('idControlEmpleados');
+            $table->date('fechaInicio');
+            $table->date('fechaFin');
             $table->unsignedBigInteger('idUsuarioCreacion');
-            $table->date('fechaInicio')->nullable();
-            $table->date('fechaFin')->nullable();
-            $table -> string('observacionCierre', 1024)->nullable();
-            $table->decimal('valorRecaudado', 9, 2)->default(0);
-            $table->boolean('cerrado')->default(0);
-            $table->boolean('activo')->default(1);
+            $table->boolean('activo')->default(1); 
 
             $table->timestamps();
 
+            $table->foreign('idControlEmpleados')->references('id')->on('control_empleados')->onDelete('no action');
             $table->foreign('idUsuarioCreacion')->references('id')->on('users')->onDelete('no action');
 
         });
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('historial_cobros_garita');
+        Schema::dropIfExists('historial_contratos_empleados');
     }
 };

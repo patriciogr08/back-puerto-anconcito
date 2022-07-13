@@ -23,16 +23,11 @@ return new class extends Migration
             $table->boolean('cerrado')->default(0);
             $table->unsignedBigInteger('idUsuarioCreacion');
             $table->boolean('activo')->default(1);
-
-
             $table->timestamps();
 
             $table->foreign('idCliente')->references('id')->on('clientes')->onDelete('no action');
             $table->foreign('idTipoVehiculo')->references('id')->on('parametros')->onDelete('no action');
             $table->foreign('idUsuarioCreacion')->references('id')->on('users')->onDelete('no action');
-
-
-
         });
     }
 

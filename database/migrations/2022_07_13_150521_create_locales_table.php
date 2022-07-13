@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('historial_cobros_garita', function (Blueprint $table) {
+        Schema::create('locales', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo', 20)->unique();
+            $table->string('nombre', 50)->nullable();
+            $table->decimal('valorArriendo', 9, 2)->default(0);
             $table->unsignedBigInteger('idUsuarioCreacion');
-            $table->date('fechaInicio')->nullable();
-            $table->date('fechaFin')->nullable();
-            $table -> string('observacionCierre', 1024)->nullable();
-            $table->decimal('valorRecaudado', 9, 2)->default(0);
-            $table->boolean('cerrado')->default(0);
-            $table->boolean('activo')->default(1);
+            $table->boolean('activo')->default(1); 
 
             $table->timestamps();
 
@@ -37,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('historial_cobros_garita');
+        Schema::dropIfExists('locales');
     }
 };
