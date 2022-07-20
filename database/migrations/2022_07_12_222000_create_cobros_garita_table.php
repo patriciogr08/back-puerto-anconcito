@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('idCliente');
             $table->unsignedBigInteger('idTipoVehiculo');
+            $table->string('placaVehiculo',20);
             $table->decimal('valor', 9, 2)->default(0);
             $table->date('fecha')->nullable();
             $table->time('hora')->nullable();
