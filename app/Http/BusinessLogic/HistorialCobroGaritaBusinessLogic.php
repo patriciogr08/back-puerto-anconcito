@@ -48,6 +48,7 @@ class HistorialCobroGaritaBusinessLogic {
     public function valoresTurno($request){
         try {
             $data = $request->all();
+            $total = 0;
             
             $historial = HistorialCobroGarita::where('idUsuarioCreacion',Auth::user()->id)
                                                 ->whereNull('fechaFin')
@@ -76,6 +77,7 @@ class HistorialCobroGaritaBusinessLogic {
                 foreach( $cobrosGaritasNoCerrados as $cobros){
                     if($tipos['id'] == $cobros->idTipoVehiculo){
                         $tipos['valor'] = $cobros->valor;
+                        $total = $total + (float) $cobros->valor;
                     }
                 }
                 $valoresRecaudados[] = $tipos; 
@@ -83,7 +85,8 @@ class HistorialCobroGaritaBusinessLogic {
 
             $data = [
                 "usuario" => Auth::user(),
-                "valorRecaudidado" => $valoresRecaudados
+                "valorRecaudidado" => $valoresRecaudados,
+                "totalRecaudado" => $total
             ];
            
         } catch (ValidationException $ex) {
