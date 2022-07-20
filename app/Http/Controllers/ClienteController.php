@@ -23,6 +23,7 @@ class ClienteController extends Controller
         // $this->middleware('can:api.clientes.store')->only('store');
         // $this->middleware('can:api.clientes.update')->only('update');
         // $this->middleware('can:api.clientes.destroy')->only('destroy');
+        // $this->middleware('can:api.clientes.buscarCliente')->only('buscarCliente');
     }
 
 
@@ -36,6 +37,14 @@ class ClienteController extends Controller
         $status = Response::HTTP_OK;
         $message = "Clientes mostrados correctamente.";
         $data = $this->_clienteBusinessLogic->listarClientes();
+        return response_success($data, $status, $message);
+    }
+
+    public function buscarCliente($identificacion)
+    {
+        $status = Response::HTTP_OK;
+        $message = "Clientes mostrados correctamente.";
+        $data = $this->_clienteBusinessLogic->buscarCliente($identificacion);
         return response_success($data, $status, $message);
     }
 

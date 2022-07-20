@@ -12,6 +12,7 @@ Route::apiResource('/clientes', ClienteController::class)->names('api.clientes')
 Route::apiResource('/cobroGarita', CobroGaritaController::class)->names('api.cobroGarita');
 
 Route::get('/parametros/obtenerLista/{codigo}', [ParametroController::class, 'obtenerLista'])->name('api.parametro.obtenerListaParametros');
+Route::get('/clientes/buscarCliente/{identificacion}', [ClienteController::class, 'buscarCliente'])->name('api.clientes.buscarCliente');
 Route::post('/historialCobroGarita/aperturarTurnoCobro', [HistorialCobroGaritaController::class, 'aperturarTurnoCobro'])->name('api.historialCobroGarita.aperturarTurnoCobro');
 Route::post('/historialCobroGarita/valoresTurno', [HistorialCobroGaritaController::class, 'valoresTurno'])->name('api.historialCobroGarita.valoresTurno');
 Route::post('/historialCobroGarita/cerrarTurnoCorbo', [HistorialCobroGaritaController::class, 'cerrarTurnoCorbo'])->name('api.historialCobroGarita.cerrarTurnoCorbo');

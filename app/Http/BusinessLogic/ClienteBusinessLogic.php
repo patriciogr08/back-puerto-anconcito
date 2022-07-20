@@ -26,6 +26,17 @@ class ClienteBusinessLogic {
         return $data;
     }
 
+    public function buscarCliente($identificacion){
+        try {
+            $data = $this->_clienteRepository->findCliente($identificacion);
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+
+        }
+      
+        return $data;
+    }
+
     public function obtenerCliente($cliente){
         try {
             $data = $this->_clienteRepository->show($cliente);

@@ -46,13 +46,24 @@ class ClienteRepository {
     public function destroy($cliente)
     {
         try {
-            $data = ["activo"=>0];
+            $data = ["activo"=>false];
             $cliente->update($data);
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
         }
         return $cliente;
     }
+
+    public function findCliente($identficacion)
+    {
+        try {
+            $cliente = Cliente::where('identificacion',$identficacion)->first();
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+        }
+        return $cliente;
+    }
+    
     
 
 }
