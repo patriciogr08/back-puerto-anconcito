@@ -5,21 +5,32 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cliente extends Model
+class ControlEmpleado extends Model
 {
+    
     use HasFactory;
 
+    protected $table    = 'control_empleados';
+
     protected $fillable = [
-        'codigo',
-        'apellidos',
-        'nombres',
-        'idTipoIdentificacion',
-        'identificacion',
+        'idEmpleado',
+        'cv',
+        'referencias',
+        'renovacion',
+        'mesesContrato',
+        'fechaInicio',
+        'fechaFin',
         'idUsuarioCreacion',
         'activo'
     ];
 
+    public function empleado() {
+        return $this->belongsTo(User::class, 'idEmpleado');
+    }
+
     public function usuarioCreacion() {
         return $this->belongsTo(User::class, 'idUsuarioCreacion');
     }
+
+
 }

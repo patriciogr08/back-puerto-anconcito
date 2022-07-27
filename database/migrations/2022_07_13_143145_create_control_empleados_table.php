@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('control_empleados', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('idEmpleado');
-            $table->text('cv')->nullable();
-            $table->text('referencias')->nullable();
-            $table->boolean('renovacionAutomatica')->default(0);
-            $table->integer('mesesRenovacion');
+            $table->jsonb('cv')->nullable();
+            $table->jsonb('referencias')->nullable();
+            $table->boolean('renovacion')->default(0);
+            $table->integer('mesesContrato');
+            $table->date('fechaInicio')->nullable();
+            $table->date('fechaFin')->nullable();
             $table->boolean('activo')->default(1);    
             $table->unsignedBigInteger('idUsuarioCreacion');
                    

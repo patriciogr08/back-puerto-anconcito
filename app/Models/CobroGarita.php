@@ -19,7 +19,8 @@ class CobroGarita extends Model
         'fecha',
         'hora',
         'cerrado',
-        'idUsuarioCreacion'
+        'idUsuarioCreacion',
+        'activo'
     ];
 
 

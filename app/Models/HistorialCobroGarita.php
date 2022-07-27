@@ -18,6 +18,7 @@ class HistorialCobroGarita extends Model
         'observacionCierre',
         'valorRecaudado',
         'cerrado',
+        'activo'
     ];
 
     public function usuarioCreacion() {
