@@ -12,7 +12,7 @@ class ControlEmpleadoRepository {
 
     public function all(){
         try {
-            $contratos = ControlEmpleado::where('activo',true)->get();
+            $contratos = ControlEmpleado::all();
            
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
@@ -24,12 +24,12 @@ class ControlEmpleadoRepository {
     public function create($data){
         try {
             $data['idUsuarioCreacion'] = Auth::user()->id;
-            $usuario = ControlEmpleado::create($data);
+            $data = ControlEmpleado::create($data);
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
         }
-
-        return $usuario;
+        $data->activo = true;
+        return $data;
     }
 
     public function destroy($contolEmpleado)

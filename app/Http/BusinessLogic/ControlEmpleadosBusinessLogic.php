@@ -59,6 +59,7 @@ class ControlEmpleadosBusinessLogic {
             $data['fechaFin'] = $fechaFin;
             
             $data = $this->_controlEmpleadosBusinessLogic->create($data);
+            $data->empleado;
         } catch (ValidationException $ex) {
             throw new ValidationException($ex->getMessage());  
         } catch (\Throwable $ex) {
