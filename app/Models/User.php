@@ -17,7 +17,11 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     * 
      */
+
+    public $guard_name = 'web';
+    
     protected $fillable = [
         'usuario',
         'primerNombre',

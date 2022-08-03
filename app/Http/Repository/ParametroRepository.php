@@ -53,4 +53,11 @@ class ParametroRepository {
         return $parametro;
     }
 
+
+    public function obtenerParametrosPadres()
+    {
+        $data     = Parametro::where('idPadre', null)->whereNotIn('codigo',['PARAM','PAR-LISTA','PAR-ELEMENTO-LISTA'])->get();
+        return $data;
+    }
+
 }

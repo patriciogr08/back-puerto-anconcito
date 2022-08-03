@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Dotenv\Exception\ValidationException;
 
 use App\Http\Controller;
+use App\Http\Requests\AsignarRolUser;
 use App\Http\Requests\StoreUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class UserController extends Controller
         //$this->middleware('can:api.users.store')->only('store');
         //$this->middleware('can:api.users.update')->only('update');
         //$this->middleware('can:api.users.destroy')->only('destroy');
+        //$this->middleware('can:api.users.asignarRol')->only('asignarRol');
 
     }
 
@@ -83,6 +85,26 @@ class UserController extends Controller
         $status = Response::HTTP_CREATED;
 
         $message = "Usuario creado correctamente.";
+        return response_success($data, $status, $message);
+    }
+
+    public function asignarRol(User $user,AsignarRolUser $request)
+    {
+        try {
+            $data = $this->_userBusinessLogic->asignarRol($user, $request);
+
+        }catch (ValidationException $ex) {
+            $status  = Response::HTTP_UNPROCESSABLE_ENTITY;
+            $message = json_decode($ex->getMessage());
+            return response_error($status, $message);
+
+        } catch (\Throwable $ex) {
+            $status     = Response::HTTP_BAD_REQUEST;
+            $message    = "Error al intentar actualizar el usuario .";
+            return response_error($status, $message);
+        }
+        $status = Response::HTTP_OK;
+        $message = "Usuario actualizado correctamemte.";
         return response_success($data, $status, $message);
     }
 }

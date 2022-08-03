@@ -5,6 +5,7 @@ namespace app\Http\BusinessLogic;
 use App\Http\Repository\UserRepository;
 use Dotenv\Exception\ValidationException;
 use Exception;
+use Spatie\Permission\Models\Role;
 
 class UserBusinessLogic {
 
@@ -18,6 +19,10 @@ class UserBusinessLogic {
     public function obtenerUsuarios(){
         try {
             $data = $this->_userRepository->all();
+            foreach ($data as $user) {
+                $roles = $user->getRoleNames();
+                $user->roles = $roles;
+            }
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
         }
@@ -59,6 +64,23 @@ class UserBusinessLogic {
         try {
             $data = $this->_userRepository->destroy($user);
 
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+        }
+        return $data;
+    }
+
+
+    public function asignarRol($user,$request) {
+        try {
+            $rol = Role::where('name',$request->name)->first();
+
+            if( !$rol ) 
+                throw new ValidationException(json_encode(['error'=>["No existe el rol a asignar."]]));
+
+            $data = $user->assignRole($rol->name);
+        } catch (ValidationException $ex) {
+            throw new ValidationException($ex->getMessage());  
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
         }
