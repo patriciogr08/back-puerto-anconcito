@@ -24,7 +24,9 @@ class ParametroBusinessLogic {
                 throw new ValidationException(json_encode(['error'=>["No existe la lista de parametro a buscar."]]));
             }
             
-            $tipoIdentificacion      = Parametro::select('id','codigo','nombre','valor','activo')->where('idPadre', $tipoIdentificacion->id)->get();
+            $tipoIdentificacion      = Parametro::select('id','codigo','nombre','descripcion','valor','activo')
+                                                    ->where('idPadre', $tipoIdentificacion->id)
+                                                    ->where('activo',true)->get();
 
         } catch (ValidationException $ex) {
             throw new ValidationException($ex->getMessage());    
@@ -85,6 +87,19 @@ class ParametroBusinessLogic {
             //code...
             $data = $request->all();
             $parametro = $this->_parametroRepository->update($data, $parametro);
+
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+
+        }
+
+        return $parametro;
+    }
+
+    public function eliminarParametro($parametro) {
+        try {
+            //code...
+            $parametro = $this->_parametroRepository->destroy($parametro);
 
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));

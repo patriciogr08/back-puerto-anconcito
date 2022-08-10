@@ -17,6 +17,7 @@ class Parametro extends Model
         'idPadre',
         'idUsuarioCreacion',
         'valor',
+        'activo'
     ];
 
 

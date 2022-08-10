@@ -22,6 +22,7 @@ class ParametroRepository {
     public function create($data){
         try {
             $data['idUsuarioCreacion'] = Auth::user()->id;
+            $data["activo"]           = true;
             $parametro = Parametro::create($data);
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
@@ -45,7 +46,7 @@ class ParametroRepository {
     public function destroy($parametro)
     {
         try {
-            $data = ["activo"=>0];
+            $data = ["activo"=>false];
             $parametro->update($data);
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));

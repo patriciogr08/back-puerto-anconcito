@@ -19,6 +19,7 @@ class ParametroController extends Controller
     {
         $this->_parametroBusinessLogic = new ParametroBusinessLogic();
         //$this->middleware('can:api.parametros.update')->only('update');
+        //$this->middleware('can:api.parametros.destroy')->only('destroy');
         //$this->middleware('can:api.parametros.obtenerListaParametros')->only('obtenerListaParametros');
         //$this->middleware('can:api.parametros.obtenerPadres')->only('obtenerPadres');
         //$this->middleware('can:api.parametros.storeHijo')->only('storeHijo');
@@ -101,7 +102,22 @@ class ParametroController extends Controller
             return response_error($status, $message);
         }
         $status = Response::HTTP_OK;
-        $message = "Lista de parametros padres obtenidos correctamente.";
+        $message = "Parametro actualizado correctamente";
+        return response_success($data, $status, $message);
+    }
+
+    public function destroy(Parametro $parametro)
+    {
+        try {
+            $data = $this->_parametroBusinessLogic->eliminarParametro($parametro);
+
+        } catch (\Throwable $ex) {
+            $status     = Response::HTTP_BAD_REQUEST;
+            $message    = "Error al intentar elimnar el parametro.";
+            return response_error($status, $message);
+        }
+        $status = Response::HTTP_OK;
+        $message = "Parametro desactivado correctamente.";
         return response_success($data, $status, $message);
     }
 }
