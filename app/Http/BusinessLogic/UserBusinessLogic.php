@@ -86,5 +86,21 @@ class UserBusinessLogic {
         }
         return $data;
     }
+
+    public function quitarRol($user,$request) {
+        try {
+            $rol = Role::where('name',$request->name)->first();
+
+            if( !$rol ) 
+                throw new ValidationException(json_encode(['error'=>["No existe el rol que desea quitar."]]));
+
+            $data = $user->removeRole($rol->name);
+        } catch (ValidationException $ex) {
+            throw new ValidationException($ex->getMessage());  
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+        }
+        return $data;
+    }
    
 }

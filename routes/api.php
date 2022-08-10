@@ -30,6 +30,7 @@ Route::post('/parametros/crear/Hijo', [ParametroController::class, 'storeHijo'])
 Route::post('/parametros/crear/Padre', [ParametroController::class, 'storePadre'])->name('api.parametros.storePadre');
 
 Route::put('/users/asignarRol/{user}', [UserController::class, 'asignarRol'])->name('api.users.asignarRol');
+Route::put('/users/removerRol/{user}', [UserController::class, 'removerRol'])->name('api.users.removerRol');
 
 
 /**

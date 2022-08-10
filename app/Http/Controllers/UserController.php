@@ -24,7 +24,8 @@ class UserController extends Controller
         //$this->middleware('can:api.users.update')->only('update');
         //$this->middleware('can:api.users.destroy')->only('destroy');
         //$this->middleware('can:api.users.asignarRol')->only('asignarRol');
-
+        //$this->middleware('can:api.users.removerRol')->only('removerRol');
+        
     }
 
     /**
@@ -45,7 +46,7 @@ class UserController extends Controller
             $data = $this->_userBusinessLogic->crearUsuario($request);
         } catch (\Throwable $ex) {
             $status     = Response::HTTP_BAD_REQUEST;
-            $message    = $ex->getMessage();//"Error al realizar el cobro de garita.";
+            $message    = "Error al realizar el cobro de garita.";
             return response_error($status, $message);
         }
         $status = Response::HTTP_CREATED;
@@ -100,7 +101,27 @@ class UserController extends Controller
 
         } catch (\Throwable $ex) {
             $status     = Response::HTTP_BAD_REQUEST;
-            $message    = "Error al intentar actualizar el usuario .";
+            $message    = "Error al intentar asignar rol al usuario .";
+            return response_error($status, $message);
+        }
+        $status = Response::HTTP_OK;
+        $message = "Usuario actualizado correctamemte.";
+        return response_success($data, $status, $message);
+    }
+
+    public function removerRol(User $user,AsignarRolUser $request)
+    {
+        try {
+            $data = $this->_userBusinessLogic->quitarRol($user, $request);
+
+        }catch (ValidationException $ex) {
+            $status  = Response::HTTP_UNPROCESSABLE_ENTITY;
+            $message = json_decode($ex->getMessage());
+            return response_error($status, $message);
+
+        } catch (\Throwable $ex) {
+            $status     = Response::HTTP_BAD_REQUEST;
+            $message    = "Error al intentar remover el rola al usuario .";
             return response_error($status, $message);
         }
         $status = Response::HTTP_OK;
