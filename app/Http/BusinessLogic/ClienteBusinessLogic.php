@@ -65,8 +65,8 @@ class ClienteBusinessLogic {
                 throw new ValidationException(json_encode(['error'=>["No puede modificar un cliente Eliminado."]]));
             }
             
-            $cliente = $request->all();
-            $data = $this->_clienteRepository->update($request,$cliente);
+            $datos = $request->all();
+            $data = $this->_clienteRepository->update($datos,$cliente);
         } catch (ValidationException $ex) {
             throw new ValidationException($ex->getMessage());  
         } catch (\Throwable $ex) {

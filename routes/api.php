@@ -25,6 +25,7 @@ Route::get('/controlEmpleados/usuarios/obtenerUsuarios', [ControlEmpleadosContro
 Route::post('/historialCobroGarita/aperturarTurnoCobro', [HistorialCobroGaritaController::class, 'aperturarTurnoCobro'])->name('api.historialCobroGarita.aperturarTurnoCobro');
 Route::post('/historialCobroGarita/valoresTurno', [HistorialCobroGaritaController::class, 'valoresTurno'])->name('api.historialCobroGarita.valoresTurno');
 Route::post('/historialCobroGarita/cerrarTurnoCorbo', [HistorialCobroGaritaController::class, 'cerrarTurnoCorbo'])->name('api.historialCobroGarita.cerrarTurnoCorbo');
+Route::post('/historialCobroGarita/cobrosCerrados', [HistorialCobroGaritaController::class, 'cobrosCerrados'])->name('api.historialCobroGarita.cobrosCerrados');
 
 Route::post('/parametros/crear/Hijo', [ParametroController::class, 'storeHijo'])->name('api.parametros.storeHijo');
 Route::post('/parametros/crear/Padre', [ParametroController::class, 'storePadre'])->name('api.parametros.storePadre');

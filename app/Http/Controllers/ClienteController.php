@@ -77,6 +77,7 @@ class ClienteController extends Controller
             $message    = "Error crear el cliente.";
             return response_error($status, $message);
         }
+
         $status = Response::HTTP_CREATED;
         $message = "Cliente creado correctamente.";
         return response_success($data, $status, $message);
@@ -101,7 +102,7 @@ class ClienteController extends Controller
             return response_error($status, $message);  
         } catch (\Throwable $ex) {
             $status  = Response::HTTP_BAD_REQUEST;
-            $message = "Ocurrió un error al intentar actualizar el cliente.";
+            $message = $ex->getMessage();//"Ocurrió un error al intentar actualizar el cliente.";
             return response_error($status, $message);
         }
 

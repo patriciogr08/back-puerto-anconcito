@@ -149,5 +149,30 @@ class HistorialCobroGaritaBusinessLogic {
         return $this->historial;
     }
 
+    public function reporteDeCobrosFechas( $request){
+        try {
+            $data = $request->all();
+            $from = $data['fechaInicio'];
+            $to = $data['fechaFin'];
+            $total = 0.00;
+            
+            $historialCobrado = HistorialCobroGarita::where('cerrado',true)
+                                            ->where('activo','=',true)
+                                            ->whereBetween('fechaFin', [$from, $to])
+                                            ->get();
+            foreach ($historialCobrado as $cobros){
+                $usuarioCobro = $cobros->usuarioCreacion;
+                $cobros->usuario = $usuarioCobro;
+                $total = $total + (float) $cobros->valorRecaudado;
+            }
+            
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+        }
 
+        return [
+            "cobros" => $historialCobrado,
+            "total" => $total
+        ];
+    }
 }

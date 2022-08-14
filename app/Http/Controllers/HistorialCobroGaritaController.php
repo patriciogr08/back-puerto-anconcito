@@ -20,6 +20,7 @@ class HistorialCobroGaritaController extends Controller
         //$this->middleware('can:api.historialCobroGarita.aperturarTurnoCobro')->only('aperturarTurnoCobro');
         //$this->middleware('can:api.historialCobroGarita.cerrarTurnoCobro')->only('cerrarTurnoCobro');
         //$this->middleware('can:api.historialCobroGarita.valoresTurno')->only('valoresTurno');
+        //$this->middleware('can:api.historialCobroGarita.cobrosCerrados')->only('cobrosCerrados');
     }
 
     public function aperturarTurnoCobro(Request $request){
@@ -70,6 +71,24 @@ class HistorialCobroGaritaController extends Controller
         }
         $status = Response::HTTP_OK;
         $message = "Turno cerrado correctamente.";
+        return response_success($data, $status, $message);
+    }
+
+    public function cobrosCerrados(Request $request){
+//
+        $rules    = ['fechaInicio' => 'required','fechaFin'=>'required' ];     
+        $messages = ['required' => 'El campo :attribute es requerido.'];
+        $this->validate($request, $rules, $messages); 
+
+        try {
+            $data = $this->_historialCobroGaritaBusinessLogic->reporteDeCobrosFechas($request);
+        } catch (\Throwable $ex) {
+            $status     = Response::HTTP_BAD_REQUEST;
+            $message    = $ex->getMessage();//"Error al intentar obtener los turnos de garitas cerrados.";
+            return response_error($status, $message);
+        }
+        $status = Response::HTTP_OK;
+        $message = "Historial obtenido correctamente.";
         return response_success($data, $status, $message);
     }
 

@@ -9,7 +9,7 @@ class UserRepository {
 
     public function all(){
         try {
-            $usuario = User::all();
+            $usuario = User::where('activo',true)->get();
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
         }

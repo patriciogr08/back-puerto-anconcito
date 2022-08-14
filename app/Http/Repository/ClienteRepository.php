@@ -10,7 +10,7 @@ class ClienteRepository {
 
     public function index()
     {
-        $data     = Cliente::paginate(100);
+        $data     = Cliente::where('activo',true)->paginate(100);
         return $data;
     }
 
