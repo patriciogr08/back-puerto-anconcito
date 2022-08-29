@@ -49,11 +49,10 @@ class ControlEmpleadosController extends Controller
             return response_error($status, $message);
         } catch (\Throwable $ex) {
             $status     = Response::HTTP_BAD_REQUEST;
-            $message    = $ex->getMessage();//"Error al realizar el cobro de garita.";
+            $message    = "Error al crear el contrato del cliente.";
             return response_error($status, $message);
         }
         $status = Response::HTTP_CREATED;
-
         $message = "Contrato creado correctamente.";
         return response_success($data, $status, $message);
     }
@@ -65,7 +64,7 @@ class ControlEmpleadosController extends Controller
 
         } catch (\Throwable $ex) {
             $status     = Response::HTTP_BAD_REQUEST;
-            $message    = "Error al intentar actualizar el usuario .";
+            $message    = "Error al intentar obtener los usuario .";
             return response_error($status, $message);
         }
         $status = Response::HTTP_OK;

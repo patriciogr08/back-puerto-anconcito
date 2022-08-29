@@ -113,7 +113,7 @@ class ParametroController extends Controller
 
         } catch (\Throwable $ex) {
             $status     = Response::HTTP_BAD_REQUEST;
-            $message    = "Error al intentar elimnar el parametro.";
+            $message    = "Error al intentar desactivar el parametro.";
             return response_error($status, $message);
         }
         $status = Response::HTTP_OK;

@@ -43,7 +43,7 @@ class ClienteController extends Controller
     public function buscarCliente($identificacion)
     {
         $status = Response::HTTP_OK;
-        $message = "Clientes mostrados correctamente.";
+        $message = "Cliente mostrados correctamente.";
         $data = $this->_clienteBusinessLogic->buscarCliente($identificacion);
         return response_success($data, $status, $message);
     }
@@ -102,7 +102,7 @@ class ClienteController extends Controller
             return response_error($status, $message);  
         } catch (\Throwable $ex) {
             $status  = Response::HTTP_BAD_REQUEST;
-            $message = $ex->getMessage();//"Ocurrió un error al intentar actualizar el cliente.";
+            $message = "Ocurrió un error al intentar actualizar el cliente.";
             return response_error($status, $message);
         }
 

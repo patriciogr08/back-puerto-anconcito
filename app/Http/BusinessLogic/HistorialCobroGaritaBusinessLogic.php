@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\CobroGarita;
 use App\Models\HistorialCobroGarita;
 use App\Http\BusinessLogic\ParametroBusinessLogic;
+use app\Http\Repository\ParametroRepository;
 use Dotenv\Exception\ValidationException;
 use Exception;
 
@@ -174,5 +175,84 @@ class HistorialCobroGaritaBusinessLogic {
             "cobros" => $historialCobrado,
             "total" => $total
         ];
+    }
+
+    public function reporteBarras($request){
+        try{
+            $datos = [];
+            $vehiculos = [];
+            $parametroRepo = new ParametroBusinessLogic();
+            $data = $request->all();
+            $from = $data['fechaInicio'];
+            $to = $data['fechaFin'];
+            $tiposVehiculos = $parametroRepo->obtenerListaParametros('PAR-TIPO-VEH')->toArray();
+            
+            foreach ($tiposVehiculos as $tipos) {
+                $tipo = [
+                    'id'=> $tipos['id'],
+                    'nombre'=> $tipos['nombre'],
+                    'total'=>0.00
+                ];
+                $vehiculos[] = $tipo;
+            }
+
+            $cobrosCerrados = CobroGarita::select('fecha','idTipoVehiculo',DB::raw("SUM(valor) as total"))->where('cerrado',true)
+                                ->where('activo','=',true)
+                                ->whereBetween('fecha', [$from, $to])
+                                ->groupBy('fecha','idTipoVehiculo')
+                                ->oldest('fecha')
+                                ->get();
+
+            $fechas = $cobrosCerrados->unique('fecha');
+        
+            foreach($fechas as $fechaAUX) {
+                $objeto = [
+                    'fecha' => $fechaAUX->fecha,
+                    'data'  => $vehiculos
+                ];
+                $datos[] = $objeto;
+            }
+            $datosFinales = [];
+            $tiposVehiculosValores = [];
+            foreach($datos as $dato) {
+                $tiposVehiculosValores = [];
+                foreach($cobrosCerrados as $cobro) {
+                    if($cobro->fecha === $dato['fecha']){
+                        foreach($dato['data'] as $veh){
+                            if( $veh['id'] == $cobro->idTipoVehiculo){
+                                $veh['total'] = $cobro->total;
+                                $tiposVehiculosValores[] = $veh;
+                            }
+                        }
+                    }
+                }
+                $existe = true;
+                foreach($vehiculos as $vehi){
+                    $existe = false;
+                    foreach($tiposVehiculosValores as $valores){
+                        if( $vehi['id'] === $valores['id'] ){
+                            $existe = true;
+                        }
+                    }
+                    if(!$existe){
+                        $tiposVehiculosValores[] = $vehi;
+                    }
+                }
+                asort($tiposVehiculosValores);
+                $valoresOrdenados = [];
+                foreach( $tiposVehiculosValores as $tiposV){
+                    $valoresOrdenados[] = $tiposV;
+                }
+                $dataAux = [
+                    'fecha' => $dato['fecha'],
+                    'data' => $valoresOrdenados
+                ];
+                $datosFinales[] = $dataAux;
+            }
+            
+        } catch (\Throwable $ex) {
+            throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
+        }
+        return $datosFinales;
     }
 }

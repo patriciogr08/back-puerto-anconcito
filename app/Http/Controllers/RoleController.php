@@ -68,7 +68,7 @@ class RoleController extends Controller
 
         } catch (\Throwable $ex) {
             $status  = Response::HTTP_BAD_REQUEST;
-            $message = $ex->getMessage();//"Ocurrió un error al intentar crear el rol.";
+            $message = "Ocurrió un error al intentar crear el rol.";
 
             return response_error($status, $message);
         }
@@ -146,7 +146,7 @@ class RoleController extends Controller
 
         } catch (\Throwable $ex) {
             $status  = Response::HTTP_BAD_REQUEST;
-            $message = $ex->getMessage();//"Ocurrió un error al intentar eliminar el rol.";
+            $message = "Ocurrió un error al intentar eliminar el rol.";
 
             return response_error($status, $message);
         }
