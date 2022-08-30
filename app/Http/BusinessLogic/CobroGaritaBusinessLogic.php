@@ -3,9 +3,11 @@
 namespace app\Http\BusinessLogic;
 
 use App\Http\Repository\CobroGaritaRepository;
+use Carbon\Carbon;
 use Dotenv\Exception\ValidationException;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CobroGaritaBusinessLogic {
 
@@ -27,8 +29,17 @@ class CobroGaritaBusinessLogic {
 
     public function crearCobroGarita($request){
         try {
-            $data = $request->all();
-            $data = $this->_cobroGaritaRepository->create($data);
+            $data = null;
+            DB::transaction(function() use ($request, &$data) {
+                $servicio = 1;
+                $ano      = Carbon::now()->format('Y');
+                $data     = $request->all();
+                $contador = DB::select("select * from genera_contadores({$ano},{$servicio})")[0];
+                $numero   = sprintf("%07d", $contador->genera_contadores);
+                $numTicket= "CG-{$ano}-{$numero}";
+                $data['ticket'] = $numTicket;
+                $data = $this->_cobroGaritaRepository->create($data);
+            });
         } catch (\Throwable $ex) {
             throw new Exception('Error'.$ex->getMessage().' Clase: '.class_basename($this));
 

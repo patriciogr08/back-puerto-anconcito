@@ -132,7 +132,7 @@ class HistorialCobroGaritaBusinessLogic {
 
                 
                 $data['fechaFin']           = date("Y-m-d h:i:s a",time());
-                $data['valorRecaudado']    = $valorTotal;
+                $data['valorRecaudado']    = round($valorTotal,2);
                 $data['cerrado']           = true;
                 $this->historial = $this->_historialCobroGaritaRepository->update($data,$historial);
 
@@ -173,7 +173,7 @@ class HistorialCobroGaritaBusinessLogic {
 
         return [
             "cobros" => $historialCobrado,
-            "total" => $total
+            "total" => round($total,2)
         ];
     }
 

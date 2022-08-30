@@ -20,7 +20,8 @@ class CobroGarita extends Model
         'hora',
         'cerrado',
         'idUsuarioCreacion',
-        'activo'
+        'activo',
+        'ticket'
     ];
 
 
